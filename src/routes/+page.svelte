@@ -1,57 +1,39 @@
 <script lang="ts">
-	const transList: {
+	type Translation = {
 		eng: string;
-		replaced?: string;
 		ru: string;
-	}[] = $state([
+		times?: number;
+		strict?: boolean;
+	};
+
+	let transList: Translation[] = $state([
 		// Title
 		{ eng: '  START  ', ru: '  СТАРТ  ' },
-		{ eng: 'UNLOCKS', ru: 'ГОРОДОК' },
-		{ eng: 'Official Discord', ru: 'Офф Дискорд' },
-		{ eng: 'News Options', ru: 'Новости' },
-		
-		// Custom characters
-		{ eng: 'BODY SETTINGS', ru: 'НАСТРОЙ ТЕЛО' },
-		{ eng: 'HEAD SETTINGS', ru: 'НАСТРОЙ ХЭД' },
+		// { eng: 'UNLOCKS', ru: 'ГОРОДОК' },
+		// { eng: 'Official Discord', ru: 'Офф Дискорд' },
+		{ eng: 'Madgarden & Rocketcat Games', ru: 'Мadgarden & Яocketcat Гames' },
+		{ eng: 'LOADING', ru: 'ЖДИТЕ' },
 
-		{ eng: 'HEAD', ru: 'ХЭД' },
-		{ eng: 'BODY', ru: 'ТЕЛО' },
-		{ eng: 'NAME', ru: 'ИМЯ' },
-		{ eng: 'PERK', ru: 'ПЕРК' },
-		{ eng: 'TRAIT', ru: 'ЧЕРТА' },
-	
-		{ eng: 'GENDER', ru: 'ПОЛ' },
-		{ eng: 'TOP', ru: 'ТОП' },
-		{ eng: 'SIZE', ru: 'РАЗМ' },
-		{ eng: 'BOTTOMS', ru: 'ОБУВЬ' },
+		// Settings
+		{ eng: 'SETTINGS', ru: 'Конфиг', strict: true, times: 2 },
+		{ eng: 'QUIT', ru: 'ВЫЙТ', times: 2 },
 
-		{ eng: 'FACE', ru: 'ЛИЦО' },
-		{ eng: 'SKIN CLR', ru: 'ЦВТ КОЖИ' },
-		{ eng: 'HAIR', ru: 'HAIR' },
-		{ eng: 'HAIR CLR', ru: 'HAIR CLR' },
-		{ eng: 'HAT', ru: 'HAT' },
-		{ eng: 'SHADES', ru: 'ОЧКИ' },
-		{ eng: 'EXTRA', ru: 'ДОП' },
-		{ eng: 'Random', ru: 'Рандом' },
-		{ eng: 'Save', ru: 'Сохр' },
-		{ eng: 'Load', ru: 'Загр' },
-		{ eng: 'SETTINGS', ru: 'Конфиг' },
-		{ eng: 'QUIT', ru: 'Выйт' },
-		{ eng: 'Controls', ru: 'Управл' },
 		{ eng: 'P1 Controls', ru: 'Р1 Кнопки' },
 		{ eng: 'P2 Controls', ru: 'Р2 Кнопки' },
 		{ eng: 'P3 Controls', ru: 'Р3 Кнопки' },
 		{ eng: 'P4 Controls', ru: 'Р4 Кнопки' },
+		{ eng: 'Controls', ru: 'Управл' },
 		{ eng: 'Sound', ru: 'Звук' },
+		{ eng: 'Game Music', ru: 'Музыка' },
 		{ eng: 'Scratch', ru: 'Пленка' },
 		{ eng: 'Grain', ru: 'Рябь' },
 		{ eng: 'Glitch', ru: 'Гличи' },
 		{ eng: 'Fast Text', ru: 'Быс Текст' },
 		{ eng: 'Go windowed', ru: 'Оконный' },
-		{ eng: 'VSYNC', ru: 'ВСИНК' },
 		{ eng: 'Fullscreen SOFT', ru: 'Фуллскрин СОФТ' },
 		{ eng: 'Fullscreen HARD', ru: 'Фуллскрин ХАРД' },
 		{ eng: 'Window size', ru: 'Размер окна' },
+		{ eng: 'VSYNC', ru: 'ВСИНК' },
 		{ eng: 'PLAYER 1 INPUT', ru: 'Р1 Ввод' },
 		{ eng: 'PLAYER 2 INPUT', ru: 'Р2 Ввод' },
 		{ eng: 'PLAYER 3 INPUT', ru: 'Р3 Ввод' },
@@ -69,89 +51,140 @@
 		{ eng: 'L-stick', ru: 'Л-стик' },
 		{ eng: 'R-stick', ru: 'П-стик' },
 		{ eng: 'D-pad', ru: 'Д-пад' },
+		// { eng: 'NO JOY', ru: 'НЕТДЖО' },
 		{ eng: 'JOY1', ru: 'ДЖО1' },
 		{ eng: 'RESET', ru: 'Сброс' },
 
+		// Custom characters
+		{ eng: 'Custom Character', ru: 'Кастомный Герой' },
+		{ eng: 'BODY SETTINGS', ru: 'НАСТРОЙ ТЕЛО' },
+		{ eng: 'HEAD SETTINGS', ru: 'НАСТРОЙ ХЭД' },
+		{ eng: 'HEAD', ru: 'ХЭД' },
+		{ eng: 'BODY', ru: 'ТЕЛО' },
+		{ eng: 'NAME', ru: 'ИМЯ' }, // Good thing it's the highest
+		{ eng: 'PERK', ru: 'ПЕРК', times: 2 }, // x2
+		{ eng: 'TRAIT', ru: 'ЧЕРТА', times: 2 }, // x2 ?
 		{ eng: 'SELECT PERK', ru: 'ВЫБОР ПЕРКА' },
 		{ eng: 'SELECT TRAIT', ru: 'ВЫБОР ЧЕРТЫ' },
-		{ eng: 'Vehicle', ru: 'Машина' },
-		{ eng: 'Custom Character', ru: 'Кастомный Герой' },
-		{ eng: 'NO JOY', ru: 'НЕТДЖО' },
-		{ eng: 'Status', ru: 'Статус' },
-		{ eng: 'Equip', ru: 'Эквип' },
-		{ eng: 'Swap Meet', ru: 'Обмен' },
-		{ eng: 'Team', ru: 'Кмнд' },
-		{ eng: 'Game Music', ru: 'Музыка' },
+		{ eng: 'Nope', ru: 'Нет' },
+		{ eng: 'Good', ru: 'Ок' },
+		{ eng: 'Nuts', ru: 'nuts' },
+		{ eng: ' GENDER ', ru: ' ПОЛ ' },
+		{ eng: ' TOP ', ru: ' ТОП ' },
+		{ eng: ' SIZE ', ru: ' РАЗМ ' },
+		{ eng: ' BOTTOMS ', ru: ' ОБУВЬ ' },
+		{ eng: ' FACE ', ru: ' ЛИЦО ' },
+		{ eng: ' SKIN CLR ', ru: ' ЦВТ КОЖИ ' },
+		{ eng: ' HAIR ', ru: ' hair ' },
+		{ eng: ' HAIR CLR ', ru: ' hair clr ' },
+		{ eng: ' HAT ', ru: ' hat ' },
+		{ eng: ' SHADES ', ru: '  ОЧКИ  ' },
+		{ eng: ' EXTRA ', ru: '  ДОП  ' },
+		{ eng: 'Random', ru: 'Рандом', times: 2 }, // x2
+		{ eng: 'Save', ru: 'Сохр', strict: true, times: 1 },
+		{ eng: 'Load', ru: 'Загр', strict: true, times: 2 }, // x2
+		{ eng: 'SAVE', ru: 'СОХР' }, // strict? can't
+		{ eng: 'LOAD', ru: 'ЗАГР', strict: true },
+		{ eng: ' USED ', ru: ' ИСП  ' },
+		{ eng: ' PAGE ', ru: ' СТР  ' },
+		{ eng: 'DELETE CUSTOM CHARACTER', ru: 'УДАЛИТЬ КАСТОМ ГЕРОЯ' },
+		{ eng: "DELETE existing '%s' character?", ru: "delete existing '%s' character?" },
+		{ eng: 'Keep', ru: 'Оста' },
+		{ eng: 'DELETE', ru: 'УБРАТЬ' },
+		{ eng: 'empty', ru: 'пусто' }, // Only replace the first "empty"
+
+		// New game UI
+		{ eng: 'Game Mode', ru: 'Режим' },
+		{ eng: 'Leader', ru: 'Лидер' },
+		{ eng: 'Buddy', ru: 'Друг', strict: true },
 		{ eng: 'Maybe later', ru: 'Может позже' },
 		{ eng: 'NAH', ru: 'НЕТ' },
-		{ eng: 'OK', ru: 'ОК' },
-		{ eng: 'Gotcha', ru: 'Сюдааа' },
-		{ eng: 'Start', ru: 'Старт' },
-		{ eng: 'Load Random', ru: 'Загр Рандом' },
-		{ eng: 'Leader', ru: 'Лидер' },
-		{ eng: 'Buddy', ru: 'Друг' },
+		{ eng: 'OK', ru: 'ok', times: 2, strict: true }, // It's hard to find a similar word & There are many OK
 		{ eng: 'With buddy', ru: 'С другом' },
 		{ eng: 'No buddy', ru: 'Без него' },
-		{ eng: 'Game Mode', ru: 'Режим' },
-		{ eng: 'RUNNIN!', ru: 'БЕГ!' },
+		{ eng: 'Load Random', ru: 'Загр Рандом' },
+		{ eng: 'Start', ru: 'Старт', times: 2, strict: true },
+
+		// Road UI
+		{ eng: 'Vehicle', ru: 'Машина' },
+		{ eng: 'Status', ru: 'Статус' },
+		{ eng: 'Equip', ru: 'Эквип' },
+		{ eng: 'Wield', ru: 'Глав' },
+		{ eng: 'Carry', ru: 'Втор' },
+		{ eng: 'fuel', ru: 'топл', strict: true },
+		{ eng: 'speed', ru: 'темп', strict: true },
+
+		// Before Mission
+		{ eng: 'Role', ru: 'Роль' },
+		{ eng: 'ROLE:', ru: 'РОЛЬ:', strict: true },
+		{ eng: 'LEAD', ru: 'ВЕДИ', strict: true },
+		{ eng: 'FOLLOW', ru: 'СЛЕДУЙ' },
+		{ eng: 'REST', ru: 'СОН' },
+		{
+			eng: 'ROLE:\n\nLead the mission through the scavenging site.\n\nControlled by PLAYER.',
+			ru: 'РОЛЬ:\n\nЛидер миссии\n\nКонтролирует ИГРОК.'
+		},
+		{
+			eng: 'ROLE:\n\nFollow and assist the lead member.',
+			ru: 'РОЛЬ:\n\nСледует за лидером и помогает ему.'
+		},
+		{
+			eng: 'ROLE:\n\nRest and recover from afar while guarding team supplies.',
+			ru: 'РОЛЬ:\n\nОтдыхает и восстанавливается пока охраняет ресурсы.'
+		},
+
+		// Mission UI
+		{ eng: 'Team', ru: 'Кмнд' },
+		{ eng: 'Swap Meet', ru: 'Обмен' },
 		{ eng: 'COMBAT >>>', ru: 'БОЙ >>>' },
+		{ eng: 'SMASHIN!', ru: 'БЛИЖНИЙ!' },
+		{ eng: 'EITHER', ru: 'ЛЮБОЙ' },
+		{ eng: 'SHOOTIN!', ru: 'ДАЛЬНИЙ!' },
 		{ eng: 'TACTIC >>>', ru: 'РЕЖИМ >>>' },
-		{ eng: 'decreases', ru: 'убывать' },
-		{ eng: 'LOSE', ru: 'ЛУЗ' },
+		{ eng: 'FIGHTIN!', ru: 'РЕЗНЯ!' },
+		{ eng: 'DEFEND', ru: 'ЗАЩИТА' },
+		{ eng: 'RUNNIN!', ru: 'БЕГ!' },
+		{ eng: 'Trunk', ru: 'Багаж' },
+		{ eng: 'LOOT in the car: ', ru: 'loot in the car: ' },
+		{ eng: 'nothing', ru: 'nothing' },
+		{ eng: 'in the car', ru: 'in the car' },
+
+		{ eng: 'Gotcha', ru: 'Сюдааа' },
+
+		// Road events, CYOAs
+		{ eng: 'GET', ru: 'ГЕТ', strict: true },
+		{ eng: 'LOSE', ru: 'ЛУЗ', strict: true },
 		{ eng: 'food', ru: 'food' },
-		{ eng: 'gas', ru: 'газ' },
-		{ eng: 'GET', ru: 'ГЕТ' },
+		{ eng: 'gas', ru: 'газ', strict: true },
+		{ eng: 'medi', ru: 'medi' },
+		{ eng: 'cal', ru: 'cal' }, // medical, appears on top
 		{ eng: 'shotgun ammo', ru: 'дробь' },
 		{ eng: 'rifle ammo', ru: 'rifle ammo' },
 		{ eng: 'pistol ammo', ru: 'пульки' },
 		{ eng: 'increases', ru: 'расти' },
-		{ eng: 'Role', ru: 'Роль' },
-		{ eng: 'DEFEND', ru: 'ЗАЩИТА' },
-		{ eng: 'FIGHTIN!', ru: 'РЕЗНЯ!' },
-		{ eng: 'SMASHIN!', ru: 'БЛИЖНИЙ!' },
-		{ eng: 'EITHER', ru: 'ЛЮБОЙ' },
-		{ eng: 'SHOOTIN!', ru: 'ДАЛЬНИЙ!' },
-		{ eng: 'LEAD', ru: 'ВЕДИ' },
-		{ eng: 'FOLLOW', ru: 'СЛЕДУЙ' },
-		{ eng: 'REST', ru: 'СОН' },
-		{ eng: 'Wield', ru: 'Глав' },
-		{ eng: 'Carry', ru: 'Втор' },
-		{ eng: 'DANG IT', ru: 'ОКАК' },
+		{ eng: 'decreases', ru: 'убывать' },
+		{ eng: '%s revealed', ru: '%s выявил' },
+
+		// MISSION SUMMARY
+		{ eng: 'total %s', ru: 'всего %s' },
 		{ eng: 'Loot', ru: 'Лут' },
 		{ eng: 'Gear', ru: 'Вещи' },
-		{ eng: 'Trunk', ru: 'Багаж' },
+		{ eng: 'CARRYING:', ru: 'CARRYING:' },
 
+		{ eng: 'SELECT CHARACTER', ru: 'SELECT CHARACTER' },
+		{ eng: 'Press START to JOIN!', ru: 'Press START to JOIN!' },
 
-		{ eng: 'Keep', ru: 'Оста' },
-		{ eng: 'DELETE', ru: 'УБРАТЬ' },
-		{ eng: 'MORE...', ru: 'БОЛЬШЕ' },
-		{ eng: 'NOPE', ru: 'НЕТ' },
-		{ eng: 'SAVE', ru: 'СОХР' },
-		{ eng: 'USED', ru: 'ИСП' },
-		{ eng: 'PAGE', ru: 'СТР' },
-		{ eng: 'fuel', ru: 'топл' },
-		{ eng: 'speed', ru: 'темп' },
-		{
-			eng: 'ROLE:\n\nLead the mission through the scavenging site.\n\nControlled by PLAYER.',
-			ru: 'ROLE:\n\nЛидер миссии\n\nКонтролирует ИГРОК.'
-		},
-		{
-			eng: 'ROLE:\n\nFollow and assist the lead member.',
-			ru: 'ROLE:\n\nСледует за лидером и помогает ему.'
-		},
-		{
-			eng: 'ROLE:\n\nRest and recover from afar while guarding team supplies.',
-			ru: 'ROLE:\n\nОтдыхает и восстанавливается пока охраняет ресурсы.'
-		},
-		{ eng: 'total %s', ru: 'всего %s' },
 		{ eng: 'Choose UR Fate', ru: 'ТВОЯ судьба' },
-		{ eng: 'DELETE CUSTOM CHARACTER', ru: 'УДАЛИТЬ КАСТОМ ГЕРОЯ' },
-		{ eng: 'uese', ru: 'исп' },
-		{ eng: 'Nope', ru: 'Нет' },
-		{ eng: 'Good', ru: 'Ок' },
+		{ eng: 'MORE...', ru: 'БОЛЬШЕ' },
+
+		// { eng: 'uese', ru: 'исп' },
+		// Others
+		{ eng: 'yoink', ru: 'yoink' },
+		{ eng: '* SNAP *', ru: '* snap *' },
+
 		{ eng: 'YOU HAVE DIED', ru: 'ВЫ УМЕРЛИ' },
 		{ eng: 'on the', ru: 'на' },
-		{ eng: 'LOADING', ru: 'ЖДИТЕ' }
+		{ eng: 'DANG IT', ru: 'ОКАК' }
 	]);
 
 	const symbolMap: Record<string, number> = {
@@ -233,20 +266,133 @@
 
 	import autosize from 'svelte-autosize';
 
+	import { browser } from '$app/environment';
+
+	let exportCount = $state(0);
+
+	// Method 1: Simple merge - array2 overrides array1
+	function mergeTranslationShallow(arr1: Translation[], arr2: Translation[]) {
+		const map = new Map();
+
+		// Add all items from first array
+		for (const item of arr1) {
+			map.set(item.eng, { ...item });
+		}
+
+		// Override/add items from second array
+		for (const item of arr2) {
+			if (map.has(item.eng)) {
+				map.set(item.eng, { ...map.get(item.eng), ...item });
+			} else {
+				map.set(item.eng, { ...item });
+			}
+		}
+
+		return Array.from(map.values());
+	}
+
+	if (browser) {
+		let transListStr = sessionStorage.getItem('transList');
+		if (transListStr) {
+			transList = mergeTranslationShallow(
+				(() => $state.snapshot(transList))(),
+				JSON.parse(transListStr)
+			);
+		}
+
+		exportCount = Number(
+			sessionStorage.getItem('exportCount') ?? (() => $state.snapshot(transList).length)()
+		);
+	}
+
+	function handleImport() {
+		const input = document.createElement('input');
+		input.type = 'file';
+		input.accept = 'application/json';
+
+		input.onchange = async () => {
+			const file = input.files?.[0];
+			if (!file) return;
+
+			try {
+				const text = await file.text();
+
+				// Merge: newer items override based on `eng` key
+				const newList = JSON.parse(text);
+				transList = mergeTranslationShallow(transList, newList);
+
+				alert('Loaded translation JSON file.');
+			} catch (err) {
+				alert('Invalid translation JSON file.');
+			}
+
+			input.remove();
+		};
+
+		input.click();
+	}
+
+	function handleExportCounter(e: Event) {
+		const val = (e.target as HTMLInputElement).value;
+		if (browser) {
+			sessionStorage.setItem('exportCount', val);
+		}
+	}
+
 	function translate() {
-		for (const trans of transList) {
+		// Save current transList
+		if (browser) {
+			sessionStorage.setItem('transList', JSON.stringify(transList));
+		}
+
+		const newTransList: (Translation & { replaced?: string })[] = [...transList];
+
+		for (const trans of newTransList) {
 			trans.replaced = Array.from(trans.ru)
 				.map((c) => (symbolMap[c] ? String.fromCharCode(symbolMap[c]) : c))
 				.join('');
+
+			if (trans.eng.length > trans.replaced.length) {
+				trans.replaced = trans.replaced.padEnd(trans.eng.length);
+			}
 		}
 
-		console.log(transList);
+		const extraTransList = [{ eng: 'fonts/font6x8.png', replaced: 'fonts/ront6x8.png' }];
+
+		const refinedTransList = [
+			...extraTransList,
+			...newTransList.map(({ ru, ...rest }) => rest)
+		];
+
+		console.log(refinedTransList);
+
+		// Create downloadable file
+		const blob = new Blob([JSON.stringify(refinedTransList.slice(0, exportCount + 1))], {
+			type: 'application/json'
+		});
+
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = 'exe_ru.json';
+		document.body.appendChild(a);
+		a.click();
+		document.body.removeChild(a);
+		URL.revokeObjectURL(url);
 	}
 </script>
 
 <div class="justify-center items-center gap-4 flex">
+	<button class="btn btn-accent" onclick={handleImport}>Import</button>
 	<h1 class="text-lg py-4 font-semibold">TRANSLATION TOOL</h1>
-	<button class="btn btn-success" onclick={translate}>Export</button>
+	<button class="btn btn-info" onclick={translate}>Export</button>
+	<input
+		type="number"
+		max={transList.length}
+		class="input w-20"
+		bind:value={exportCount}
+		onchange={handleExportCounter}
+	/>
 </div>
 
 <div class="w-[55em] mx-auto rounded-sm border-2 border-neutral bg-base-100">
@@ -268,6 +414,7 @@
 					<td class="p-0">
 						<textarea
 							class="h-full w-full block py-3 px-2 text-base"
+							class:bg-notify-untranslated={trans.eng.toLowerCase() === trans.ru.toLowerCase()}
 							bind:value={trans.ru}
 							rows="1"
 							use:autosize
@@ -287,3 +434,10 @@
 		</tbody>
 	</table>
 </div>
+
+
+<style>
+	.bg-notify-untranslated {
+		background-color: oklch(0.8065 0.0773 60.729);
+	}
+</style>
