@@ -254,6 +254,11 @@
 		я: 207
 	};
 
+	
+	const extraTransList = [
+		{ eng: 'fonts/font6x8.png', replaced: 'fonts/ront6x8.png' }
+	];
+
 	function compareSign(len1: number, len2: number) {
 		if (len1 > len2) {
 			return '>';
@@ -271,8 +276,9 @@
 	let exportCount = $state(0);
 
 	// Method 1: Simple merge - array2 overrides array1
-	function mergeTranslationShallow(arr1: Translation[], arr2: Translation[]) {
+	function mergeTranslationShallow(arr1: Translation[], arr2: Translation[], excludeArr: { eng: string }[] = []) {
 		const map = new Map();
+		const excludedSet = new Set(excludeArr.map(o => o.eng));
 
 		// Add all items from first array
 		for (const item of arr1) {
@@ -284,7 +290,9 @@
 			if (map.has(item.eng)) {
 				map.set(item.eng, { ...map.get(item.eng), ...item });
 			} else {
-				map.set(item.eng, { ...item });
+				if (!excludedSet.has(item.eng)) {
+					map.set(item.eng, { ...item });
+				}
 			}
 		}
 
@@ -318,8 +326,9 @@
 				const text = await file.text();
 
 				// Merge: newer items override based on `eng` key
+				// Also exlude items in extraTransList
 				const newList = JSON.parse(text);
-				transList = mergeTranslationShallow(transList, newList);
+				transList = mergeTranslationShallow(transList, newList, extraTransList);
 
 				alert('Loaded translation JSON file.');
 			} catch (err) {
@@ -353,11 +362,9 @@
 				.join('');
 
 			if (trans.eng.length > trans.replaced.length) {
-				trans.replaced = trans.replaced.padEnd(trans.eng.length);
+				trans.replaced = trans.replaced.padEnd(trans.eng.length, '\0');
 			}
 		}
-
-		const extraTransList = [{ eng: 'fonts/font6x8.png', replaced: 'fonts/ront6x8.png' }];
 
 		const refinedTransList = [
 			...extraTransList,
@@ -382,9 +389,9 @@
 	}
 </script>
 
-<div class="justify-center items-center gap-4 flex">
+<div class="flex justify-center items-center gap-4 py-4">
 	<button class="btn btn-accent" onclick={handleImport}>Import</button>
-	<h1 class="text-lg py-4 font-semibold">TRANSLATION TOOL</h1>
+	<h1 class="text-lg font-semibold">TRANSLATION TOOL</h1>
 	<button class="btn btn-info" onclick={translate}>Export</button>
 	<input
 		type="number"
