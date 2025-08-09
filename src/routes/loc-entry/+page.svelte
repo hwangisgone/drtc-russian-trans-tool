@@ -315,7 +315,7 @@
 							<input
 								type="checkbox"
 								class="checkbox checkbox-info"
-								checked={isGenderedEntry('string')}
+								checked={isGenderedEntry(entry.ru)}
 								onchange={() => {
 									changeEntryType(groupIndex, index);
 								}}
