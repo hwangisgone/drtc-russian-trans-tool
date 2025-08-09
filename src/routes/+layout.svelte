@@ -4,12 +4,13 @@
 	import '../app.css';
 
 	import { page } from '$app/state';
+	import { resolve } from '$app/paths';
 
 	let { children } = $props();
 
 	const links = [
-		{ href: '/', name: '.EXE ENTRY' },
-		{ href: '/loc-entry', name: 'LOC ENTRY' }
+		{ href: resolve('/'), name: '.EXE ENTRY' },
+		{ href: resolve('/loc-entry'), name: 'LOC ENTRY' }
 	];
 </script>
 

@@ -137,7 +137,7 @@
 					if (typeof entry.ru === 'string') {
 						return `loc-entry: "${entry.eng}" "${entry.ru}"`;
 					} else {
-						return `loc-case: "${entry.eng}"\n\tmale: "${entry.ru.male}"\n\tfemale: "${entry.ru.female}"`;
+						return `loc-case: "${entry.eng}"\n\tmale: "${entry.ru.male}"\n\tfemale: "${entry.ru.female}"\n`;
 					}
 				})
 				.join('\n');
