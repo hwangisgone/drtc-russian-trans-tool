@@ -107,8 +107,8 @@
 
 		// Road UI
 		{ eng: 'Vehicle', ru: 'Машина' },
-		{ eng: 'Status', ru: 'Статус' },
-		{ eng: 'Equip', ru: 'Эквип' },
+		{ eng: 'Status', ru: 'Статус', times: 3 },
+		{ eng: 'Equip', ru: 'Эквип', times: 2 },
 		{ eng: 'Wield', ru: 'Глав' },
 		{ eng: 'Carry', ru: 'Втор' },
 		{ eng: 'fuel', ru: 'топл', strict: true },
@@ -275,37 +275,25 @@
 
 	let exportCount = $state(0);
 
-	// Method 1: Simple merge - array2 overrides array1
-	function mergeTranslationShallow(arr1: Translation[], arr2: Translation[], excludeArr: { eng: string }[] = []) {
-		const map = new Map();
+	// Remove nontranslation
+	function excludeFromArray(arr: Translation[], excludeArr: { eng: string }[] = []) {
+		const newArr = [];
 		const excludedSet = new Set(excludeArr.map(o => o.eng));
 
-		// Add all items from first array
-		for (const item of arr1) {
-			map.set(item.eng, { ...item });
-		}
-
-		// Override/add items from second array
-		for (const item of arr2) {
-			if (map.has(item.eng)) {
-				map.set(item.eng, { ...map.get(item.eng), ...item });
-			} else {
-				if (!excludedSet.has(item.eng)) {
-					map.set(item.eng, { ...item });
-				}
+		// Exclude items from second array
+		for (const item of arr) {
+			if (!excludedSet.has(item.eng)) {
+				newArr.push(item);
 			}
 		}
 
-		return Array.from(map.values());
+		return newArr;
 	}
 
 	if (browser) {
 		let transListStr = sessionStorage.getItem('transList');
 		if (transListStr) {
-			transList = mergeTranslationShallow(
-				(() => $state.snapshot(transList))(),
-				JSON.parse(transListStr)
-			);
+			transList = JSON.parse(transListStr);
 		}
 
 		exportCount = Number(
@@ -328,7 +316,7 @@
 				// Merge: newer items override based on `eng` key
 				// Also exlude items in extraTransList
 				const newList = JSON.parse(text);
-				transList = mergeTranslationShallow(transList, newList, extraTransList);
+				transList = excludeFromArray(newList, extraTransList);
 
 				alert('Loaded translation JSON file.');
 			} catch (err) {
