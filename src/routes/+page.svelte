@@ -4,6 +4,8 @@
 		ru: string;
 		times?: number;
 		strict?: boolean;
+
+		samelength?: boolean;
 	};
 
 	let transList: Translation[] = $state([
@@ -11,18 +13,18 @@
 		{ eng: '  START  ', ru: '  СТАРТ  ' },
 		// { eng: 'UNLOCKS', ru: 'ГОРОДОК' },
 		// { eng: 'Official Discord', ru: 'Офф Дискорд' },
-		{ eng: 'Madgarden & Rocketcat Games', ru: 'Мadgarden & Яocketcat Гames' },
+		{ eng: 'Madgarden & Rocketcat Games', ru: 'Мэдгарден и Рокеткэт Геймс' },
 		{ eng: 'LOADING', ru: 'ЖДИТЕ' },
 
 		// Settings
-		{ eng: 'SETTINGS', ru: 'Конфиг', strict: true, times: 2 },
-		{ eng: 'QUIT', ru: 'ВЫЙТ', times: 2 },
+		{ eng: 'SETTINGS', ru: 'КОНФИГ', strict: true, times: 2 },
+		{ eng: 'QUIT', ru: 'УЙТИ', times: 2 },
 
-		{ eng: 'P1 Controls', ru: 'Р1 Кнопки' },
+		{ eng: 'P1 Controls', ru: 'Р1 Кнопки  ' },
 		{ eng: 'P2 Controls', ru: 'Р2 Кнопки' },
 		{ eng: 'P3 Controls', ru: 'Р3 Кнопки' },
 		{ eng: 'P4 Controls', ru: 'Р4 Кнопки' },
-		{ eng: 'Controls', ru: 'Управл' },
+		{ eng: 'Controls', ru: 'Кнопки' },
 		{ eng: 'Sound', ru: 'Звук' },
 		{ eng: 'Game Music', ru: 'Музыка' },
 		{ eng: 'Scratch', ru: 'Пленка' },
@@ -30,37 +32,39 @@
 		{ eng: 'Glitch', ru: 'Гличи' },
 		{ eng: 'Fast Text', ru: 'Быс Текст' },
 		{ eng: 'Go windowed', ru: 'Оконный' },
-		{ eng: 'Fullscreen SOFT', ru: 'Фуллскрин СОФТ' },
-		{ eng: 'Fullscreen HARD', ru: 'Фуллскрин ХАРД' },
+		{ eng: 'Fullscreen SOFT', ru: 'fullscreen soft' },
+		{ eng: 'Fullscreen HARD', ru: 'fullscreen hard' },
 		{ eng: 'Window size', ru: 'Размер окна' },
-		{ eng: 'VSYNC', ru: 'ВСИНК' },
+		{ eng: 'VSYNC', ru: 'vsync' },
 		{ eng: 'PLAYER 1 INPUT', ru: 'Р1 Ввод' },
 		{ eng: 'PLAYER 2 INPUT', ru: 'Р2 Ввод' },
 		{ eng: 'PLAYER 3 INPUT', ru: 'Р3 Ввод' },
 		{ eng: 'PLAYER 4 INPUT', ru: 'Р4 Ввод' },
-		{ eng: 'Up', ru: 'Ап' },
-		{ eng: 'Left', ru: 'Лево' },
-		{ eng: 'Down', ru: 'Вниз' },
-		{ eng: 'Right', ru: 'Право' },
-		{ eng: 'Prev', ru: 'Пред' },
-		{ eng: 'Attack', ru: 'Атака' },
-		{ eng: 'Use', ru: 'Исп' },
-		{ eng: 'Swap', ru: 'Смен' },
-		{ eng: 'Next', ru: 'След' },
-		{ eng: 'Deadzone', ru: 'Дэдзона' },
-		{ eng: 'L-stick', ru: 'Л-стик' },
-		{ eng: 'R-stick', ru: 'П-стик' },
-		{ eng: 'D-pad', ru: 'Д-пад' },
+		{ eng: 'Up', ru: 'up' },
+		{ eng: 'Left', ru: 'left' },
+		{ eng: 'Down', ru: 'down' },
+		{ eng: 'Right', ru: 'right' },
+		{ eng: 'Prev', ru: 'prev' },
+		{ eng: 'Attack', ru: 'attack' },
+		{ eng: 'Use', ru: 'use' },
+		{ eng: 'Swap', ru: 'swap' },
+		{ eng: 'Next', ru: 'next' },
+		{ eng: 'Deadzone', ru: 'deadzone' },
+		{ eng: 'L-stick', ru: 'l-stick' },
+		{ eng: 'R-stick', ru: 'r-stick' },
+		{ eng: 'D-pad', ru: 'd-pad' },
 		// { eng: 'NO JOY', ru: 'НЕТДЖО' },
+		{ eng: 'PRESS!', ru: 'press!' },
+		{ eng: 'IN USE', ru: 'in use' },
 		{ eng: 'JOY1', ru: 'ДЖО1' },
-		{ eng: 'RESET', ru: 'Сброс' },
+		{ eng: 'RESET', ru: 'СБРОС' },
 
 		// Custom characters
 		{ eng: 'Custom Character', ru: 'Кастомный Герой' },
 		{ eng: 'BODY SETTINGS', ru: 'НАСТРОЙ ТЕЛО' },
 		{ eng: 'HEAD SETTINGS', ru: 'НАСТРОЙ ХЭД' },
-		{ eng: 'HEAD', ru: 'ХЭД' },
-		{ eng: 'BODY', ru: 'ТЕЛО' },
+		{ eng: 'HEAD', ru: 'head' },
+		{ eng: 'BODY', ru: 'body' },
 		{ eng: 'NAME', ru: 'ИМЯ' }, // Good thing it's the highest
 		{ eng: 'PERK', ru: 'ПЕРК', times: 2 }, // x2
 		{ eng: 'TRAIT', ru: 'ЧЕРТА', times: 2 }, // x2 ?
@@ -69,26 +73,26 @@
 		{ eng: 'Nope', ru: 'Нет' },
 		{ eng: 'Good', ru: 'Ок' },
 		{ eng: 'Nuts', ru: 'nuts' },
-		{ eng: ' GENDER ', ru: ' ПОЛ ' },
-		{ eng: ' TOP ', ru: ' ТОП ' },
-		{ eng: ' SIZE ', ru: ' РАЗМ ' },
-		{ eng: ' BOTTOMS ', ru: ' ОБУВЬ ' },
-		{ eng: ' FACE ', ru: ' ЛИЦО ' },
-		{ eng: ' SKIN CLR ', ru: ' ЦВТ КОЖИ ' },
+		{ eng: ' GENDER ', ru: ' gender ' },
+		{ eng: ' TOP ', ru: ' top ' },
+		{ eng: ' SIZE ', ru: ' size ' },
+		{ eng: ' BOTTOMS ', ru: ' bottoms ' },
+		{ eng: ' FACE ', ru: ' face ' },
+		{ eng: ' SKIN CLR ', ru: ' skin clr ' },
 		{ eng: ' HAIR ', ru: ' hair ' },
 		{ eng: ' HAIR CLR ', ru: ' hair clr ' },
 		{ eng: ' HAT ', ru: ' hat ' },
-		{ eng: ' SHADES ', ru: '  ОЧКИ  ' },
-		{ eng: ' EXTRA ', ru: '  ДОП  ' },
-		{ eng: 'Random', ru: 'Рандом', times: 2 }, // x2
+		{ eng: ' SHADES ', ru: ' shades ' },
+		{ eng: ' EXTRA ', ru: ' extra ' },
+		{ eng: 'Random', ru: 'random', times: 2 }, // x2
 		{ eng: 'Save', ru: 'Сохр', strict: true, times: 1 },
 		{ eng: 'Load', ru: 'Загр', strict: true, times: 2 }, // x2
 		{ eng: 'SAVE', ru: 'СОХР' }, // strict? can't
 		{ eng: 'LOAD', ru: 'ЗАГР', strict: true },
-		{ eng: ' USED ', ru: ' ИСП  ' },
-		{ eng: ' PAGE ', ru: ' СТР  ' },
+		{ eng: ' USED ', ru: ' used ' },
+		{ eng: ' PAGE ', ru: ' page ' },
 		{ eng: 'DELETE CUSTOM CHARACTER', ru: 'УДАЛИТЬ КАСТОМ ГЕРОЯ' },
-		{ eng: "DELETE existing '%s' character?", ru: "delete existing '%s' character?" },
+		{ eng: "DELETE existing '%s' character?", ru: "УДАЛИТЬ персонажа '%s' ?" },
 		{ eng: 'Keep', ru: 'Оста' },
 		{ eng: 'DELETE', ru: 'УБРАТЬ' },
 		{ eng: 'empty', ru: 'пусто' }, // Only replace the first "empty"
@@ -99,7 +103,7 @@
 		{ eng: 'Buddy', ru: 'Друг', strict: true },
 		{ eng: 'Maybe later', ru: 'Может позже' },
 		{ eng: 'NAH', ru: 'НЕТ' },
-		{ eng: 'OK', ru: 'ok', times: 2, strict: true }, // It's hard to find a similar word & There are many OK
+		{ eng: 'OK', ru: 'ОК', times: 2, strict: true }, // It's hard to find a similar word & There are many OK
 		{ eng: 'With buddy', ru: 'С другом' },
 		{ eng: 'No buddy', ru: 'Без него' },
 		{ eng: 'Load Random', ru: 'Загр Рандом' },
@@ -145,21 +149,21 @@
 		{ eng: 'DEFEND', ru: 'ЗАЩИТА' },
 		{ eng: 'RUNNIN!', ru: 'БЕГ!' },
 		{ eng: 'Trunk', ru: 'Багаж' },
-		{ eng: 'LOOT in the car: ', ru: 'loot in the car: ' },
-		{ eng: 'nothing', ru: 'nothing' },
-		{ eng: 'in the car', ru: 'in the car' },
+		{ eng: 'LOOT in the car: ', ru: 'ДОБЫЧА в машине: ' },
+		{ eng: 'nothing', ru: 'ничего' },
+		{ eng: 'in the car', ru: 'в машине' },
 
 		{ eng: 'Gotcha', ru: 'Сюдааа' },
 
 		// Road events, CYOAs
-		{ eng: 'GET', ru: 'ГЕТ', strict: true },
-		{ eng: 'LOSE', ru: 'ЛУЗ', strict: true },
-		{ eng: 'food', ru: 'food' },
-		{ eng: 'gas', ru: 'газ', strict: true },
-		{ eng: 'medi', ru: 'medi' },
-		{ eng: 'cal', ru: 'cal' }, // medical, appears on top
+		{ eng: 'GET', ru: 'get', strict: true },
+		{ eng: 'LOSE', ru: 'lose', strict: true },
+		{ eng: 'food', ru: 'еда ', samelength: true },
+		{ eng: 'gas', ru: 'газ', strict: true, samelength: true },
+		{ eng: 'medi', ru: 'medi', samelength: true },
+		{ eng: 'cal', ru: 'cal', samelength: true }, // medical, appears on top
 		{ eng: 'shotgun ammo', ru: 'дробь' },
-		{ eng: 'rifle ammo', ru: 'rifle ammo' },
+		{ eng: 'rifle ammo', ru: 'ружейный' },
 		{ eng: 'pistol ammo', ru: 'пульки' },
 		{ eng: 'increases', ru: 'расти' },
 		{ eng: 'decreases', ru: 'убывать' },
@@ -169,17 +173,17 @@
 		{ eng: 'total %s', ru: 'всего %s' },
 		{ eng: 'Loot', ru: 'Лут' },
 		{ eng: 'Gear', ru: 'Вещи' },
-		{ eng: 'CARRYING:', ru: 'CARRYING:' },
+		{ eng: 'CARRYING:', ru: 'НЕСЕТ:' },
 
-		{ eng: 'SELECT CHARACTER', ru: 'SELECT CHARACTER' },
-		{ eng: 'Press START to JOIN!', ru: 'Press START to JOIN!' },
+		{ eng: 'SELECT CHARACTER', ru: 'ВЫБЕРИ ПЕРСОНАЖА' },
+		{ eng: 'Press START to JOIN!', ru: 'Нажми СТАРТ!' },
 
 		{ eng: 'Choose UR Fate', ru: 'ТВОЯ судьба' },
 		{ eng: 'MORE...', ru: 'БОЛЬШЕ' },
 
 		// { eng: 'uese', ru: 'исп' },
 		// Others
-		{ eng: 'yoink', ru: 'yoink' },
+		{ eng: 'yoink', ru: 'йонк' },
 		{ eng: '* SNAP *', ru: '* snap *' },
 
 		{ eng: 'YOU HAVE DIED', ru: 'ВЫ УМЕРЛИ' },
@@ -254,10 +258,75 @@
 		я: 207
 	};
 
-	
-	const extraTransList = [
-		{ eng: 'fonts/font6x8.png', replaced: 'fonts/ront6x8.png' }
-	];
+	const reversedSymbolMap: Record<number, string> = {
+		0: '',
+		64: 'А',
+		65: 'Б',
+		66: 'В',
+		67: 'Г',
+		68: 'Д',
+		69: 'Е',
+		70: 'Ж',
+		71: 'З',
+		72: 'И',
+		73: 'Й',
+		74: 'К',
+		75: 'Л',
+		76: 'М',
+		77: 'Н',
+		78: 'О',
+		79: 'П',
+		80: 'Р',
+		81: 'С',
+		82: 'Т',
+		83: 'У',
+		84: 'Ф',
+		85: 'Х',
+		86: 'Ц',
+		87: 'Ч',
+		88: 'Ш',
+		89: 'Щ',
+		90: 'Ъ',
+		91: 'Ы',
+		92: 'Ь',
+		93: 'Э',
+		94: 'Ю',
+		95: 'Я',
+		160: 'а',
+		161: 'б',
+		162: 'в',
+		163: 'г',
+		164: 'д',
+		165: 'е',
+		166: 'ж',
+		167: 'з',
+		168: 'и',
+		169: 'й',
+		170: 'к',
+		171: 'л',
+		172: 'м',
+		173: 'н',
+		174: 'о',
+		175: 'п',
+		192: 'р',
+		193: 'с',
+		194: 'т',
+		195: 'у',
+		196: 'ф',
+		197: 'х',
+		198: 'ц',
+		199: 'ч',
+		200: 'ш',
+		201: 'щ',
+		202: 'ъ',
+		203: 'ы',
+		204: 'ь',
+		205: 'э',
+		206: 'ю',
+		207: 'я'
+	};
+
+	const extraTransList = [{ eng: 'fonts/font6x8.png', replaced: 'fonts/ront6x8.png' }];
 
 	function compareSign(len1: number, len2: number) {
 		if (len1 > len2) {
@@ -276,19 +345,6 @@
 	let exportCount = $state(0);
 
 	// Remove nontranslation
-	function excludeFromArray(arr: Translation[], excludeArr: { eng: string }[] = []) {
-		const newArr = [];
-		const excludedSet = new Set(excludeArr.map(o => o.eng));
-
-		// Exclude items from second array
-		for (const item of arr) {
-			if (!excludedSet.has(item.eng)) {
-				newArr.push(item);
-			}
-		}
-
-		return newArr;
-	}
 
 	if (browser) {
 		let transListStr = sessionStorage.getItem('transList');
@@ -313,10 +369,8 @@
 			try {
 				const text = await file.text();
 
-				// Merge: newer items override based on `eng` key
-				// Also exlude items in extraTransList
 				const newList = JSON.parse(text);
-				transList = excludeFromArray(newList, extraTransList);
+				transList = reverseTranslate(newList);
 
 				alert('Loaded translation JSON file.');
 			} catch (err) {
@@ -334,6 +388,34 @@
 		if (browser) {
 			sessionStorage.setItem('exportCount', val);
 		}
+	}
+
+	function reverseTranslate(oldList: (Translation & { replaced: string })[]) {
+		const oldTransMap = new Map(oldList.map((item) => [item.eng, item]));
+		const result = [];
+
+		for (const item of transList) {
+			const oldItem = oldTransMap.get(item.eng);
+
+			if (oldItem) {
+				// Reverse translate the 'replaced' field to get new 'ru' value
+				const reversedRu = Array.from(oldItem.replaced)
+					.map((c) => reversedSymbolMap[c.charCodeAt(0)] ?? c)
+					.join('');
+
+				// Use newer item data as base but replace 'ru' with reversed translation from old
+				const resultItem = {
+					...item,
+					ru: reversedRu
+				};
+
+				result.push(resultItem);
+			} else {
+				result.push(item);
+			}
+		}
+
+		return result;
 	}
 
 	function translate() {
@@ -356,7 +438,7 @@
 
 		const refinedTransList = [
 			...extraTransList,
-			...newTransList.map(({ ru, ...rest }) => rest)
+			...newTransList.map(({ ru, samelength, ...rest }) => rest)
 		];
 
 		console.log(refinedTransList);
@@ -409,7 +491,8 @@
 					<td class="p-0">
 						<textarea
 							class="h-full w-full block py-3 px-2 text-base"
-							class:bg-notify-untranslated={trans.eng.toLowerCase() === trans.ru.toLowerCase()}
+							class:bg-notify-untranslated={trans.eng.toLowerCase() ===
+								trans.ru.toLowerCase()}
 							bind:value={trans.ru}
 							rows="1"
 							use:autosize
@@ -417,7 +500,10 @@
 						</textarea>
 					</td>
 					<td
-						class:bg-success={trans.eng.length >= trans.ru.length}
+						class:bg-warning={trans.samelength && trans.eng.length > trans.ru.length}
+						class:bg-success={trans.samelength
+							? trans.eng.length === trans.ru.length
+							: trans.eng.length >= trans.ru.length}
 						class="bg-error py-1 px-2 text-base-100 font-semibold text-center"
 					>
 						{trans.eng.length}
@@ -429,7 +515,6 @@
 		</tbody>
 	</table>
 </div>
-
 
 <style>
 	.bg-notify-untranslated {
